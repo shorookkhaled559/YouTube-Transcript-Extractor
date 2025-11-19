@@ -6,18 +6,13 @@ extractBtn.addEventListener("click", async () => {
   const url = videoUrlInput.value.trim();
   if (!url) return alert("Please enter a YouTube URL");
 
-  const urlObj = new URL(url);
-  let videoId = urlObj.searchParams.get("v");
-  if (!videoId) {
-    videoId = urlObj.pathname.slice(1);
-  }
-
   resultDiv.innerHTML = `<p class="text-gray-500">Loading transcript...</p>`;
 
   try {
     const transcriptRes = await fetch(
-      `http://localhost:3000/youtube-transcript?videoId=${videoId}`
+      `https://supadata-backend.onrender.com/youtube-transcript?url=${encodeURIComponent(url)}`
     );
+
     const transcriptData = await transcriptRes.json();
 
     let transcriptText = "";
@@ -27,12 +22,21 @@ extractBtn.addEventListener("click", async () => {
       transcriptText = transcriptData.content || "Transcript not available.";
     }
 
+    let videoId = "";
+    try {
+      const urlObj = new URL(url);
+      videoId = urlObj.searchParams.get("v") || urlObj.pathname.slice(1);
+    } catch {
+      videoId = "";
+    }
+
     resultDiv.innerHTML = `
-          <iframe class="w-full h-64 mb-4" src="https://www.youtube.com/embed/${videoId}" 
-            frameborder="0" allowfullscreen></iframe>
-          <h3 class="text-lg font-semibold mb-2">Transcript:</h3>
-          <p class="text-gray-800 whitespace-pre-wrap">${transcriptText}</p>
-        `;
+      <iframe class="w-full h-64 mb-4" src="https://www.youtube.com/embed/${videoId}" 
+        frameborder="0" allowfullscreen></iframe>
+      <h3 class="text-lg font-semibold mb-2">Transcript:</h3>
+      <p class="text-gray-800 whitespace-pre-wrap">${transcriptText}</p>
+    `;
+
   } catch (err) {
     resultDiv.innerHTML = `<p class="text-red-500 font-semibold">Error: ${err.message}</p>`;
   }
