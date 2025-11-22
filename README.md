@@ -9,7 +9,7 @@ It is built with **HTML, Tailwind CSS, and JavaScript**, and uses a **custom Nod
 ## Live Demo  
 
 You can try the live version here:  
-[Live Demo](https://shorookkhaled559.github.io/Diagram-Builder/)  
+[Live Demo](https://shorookkhaled559.github.io/YouTube-Transcript-Extractor)  
 
 ---
 
@@ -108,7 +108,7 @@ YouTube-Transcript-Extractor/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/YouTube-Transcript-Extractor.git
+git clone https://github.com/shorookkhaled559/YouTube-Transcript-Extractor
 ```
 
 ### 2. Install backend dependencies
